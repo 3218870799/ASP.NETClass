@@ -25,16 +25,16 @@ public partial class Manager_page : System.Web.UI.Page
         string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
         return connstr;
     }
-    private void DeleteRecord(string ID)
+    private void DeleteRecord(string username)
     {
         SqlConnection connection = new SqlConnection(GetConnectionString());
-        string sqlStatement = "DELETE FROM Manager1 WHERE Id = @Id";
+        string sqlStatement = "DELETE FROM Manager1 WHERE username = @username";
 
         try
         {
             connection.Open();
             SqlCommand cmd = new SqlCommand(sqlStatement, connection);
-            cmd.Parameters.AddWithValue("@Id", ID);
+            cmd.Parameters.AddWithValue("@username", username);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
         }
@@ -123,20 +123,19 @@ public partial class Manager_page : System.Web.UI.Page
     }
 
 
-    private void UpdateRecord(string id, string employee, string position, string team)
+    private void UpdateRecord(string employee,string position, string team)
     {
         SqlConnection connection = new SqlConnection(GetConnectionString());
         string sqlStatement = "UPDATE Manager1 " +
-                              "SET username = @Employees, password = @Position, realname = @Team " +
-                              "WHERE Id = @Id";
+                              "SET password = @Position, realname = @Team " +
+                              "WHERE username = @employee";
         try
         {
             connection.Open();
             SqlCommand cmd = new SqlCommand(sqlStatement, connection);
-            cmd.Parameters.AddWithValue("@Employees", employee);
             cmd.Parameters.AddWithValue("@Position", position);
             cmd.Parameters.AddWithValue("@Team", team);
-            cmd.Parameters.AddWithValue("@Id", id);
+            cmd.Parameters.AddWithValue("@employee", employee);
             cmd.CommandType = CommandType.Text;
             cmd.ExecuteNonQuery();
         }
@@ -168,12 +167,12 @@ public partial class Manager_page : System.Web.UI.Page
     protected void GridViewEmployee_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
         //Accessing Edited values from the GridView
-        string id = ((Label)GridViewEmployee.Rows[e.RowIndex].Cells[3].FindControl("LabelID")).Text; //ID
+        //string id = ((Label)GridViewEmployee.Rows[e.RowIndex].Cells[3].FindControl("LabelID")).Text; //ID
         string employee = ((TextBox)GridViewEmployee.Rows[e.RowIndex].Cells[0].FindControl("TextBoxEditEmployee")).Text; //Employee
         string position = ((TextBox)GridViewEmployee.Rows[e.RowIndex].Cells[1].FindControl("TextBoxEditPosition")).Text; //Position
         string team = ((TextBox)GridViewEmployee.Rows[e.RowIndex].Cells[2].FindControl("TextBoxEditTeam")).Text; //Team
 
-        UpdateRecord(id, employee, position, team); // call update method
+        UpdateRecord(employee,position, team); // call update method
 
         GridViewEmployee.EditIndex = -1; //Turn the Grid to read only mode
 
@@ -186,7 +185,7 @@ public partial class Manager_page : System.Web.UI.Page
     protected void GridViewEmployee_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
         //get the ID of the selected row
-        string id = ((Label)GridViewEmployee.Rows[e.RowIndex].Cells[3].FindControl("LabelID")).Text;
+        string id = ((Label)GridViewEmployee.Rows[e.RowIndex].Cells[0].FindControl("LabelEmployee")).Text;
         DeleteRecord(id); //call the method for delete
 
         BindGridView(); // Rebind GridView to reflect changes made
@@ -194,4 +193,9 @@ public partial class Manager_page : System.Web.UI.Page
     }
 
 
+
+    protected void Button2_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Login.aspx");
+    }
 }

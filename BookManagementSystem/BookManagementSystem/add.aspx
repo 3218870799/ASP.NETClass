@@ -8,8 +8,8 @@
     <title></title>
 </head>
 <body>
-    <form id="form1" runat="server">
-        <div>
+    <form id="form1" runat="server" >
+        <div align="center"> 
             学号：<asp:TextBox ID="st_id" runat="server"></asp:TextBox>
             <br />
             姓名：<asp:TextBox ID="st_name" runat="server"></asp:TextBox>
@@ -25,7 +25,7 @@
             <br />
             <asp:Button ID="submit" runat="server" Text="确定" OnClick="submit_Click" />
 &nbsp;&nbsp;&nbsp;
-            <asp:Button ID="back" runat="server" Text="返回" />
+            <asp:Button ID="back" runat="server" Text="返回" OnClick="back_Click" style="height: 21px" />
         </div>
     </form>
 </body>

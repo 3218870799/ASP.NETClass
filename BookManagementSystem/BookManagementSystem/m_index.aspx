@@ -8,10 +8,10 @@
     <title></title>
 </head>
 <body>
-    <form id="form1" runat="server">
-        <div>
+    <form id="form1" runat="server" >
+        <div align="center">
   <!-- 具有添加图书，图书分类，添加学生，删除学生，修改图书信息，删除图书信息-->         
-     <asp:GridView ID="GridViewEmployee" runat="server" AutoGenerateColumns="False" 
+       <asp:GridView ID="GridViewEmployee" runat="server" AutoGenerateColumns="False" 
         ShowFooter="True" onrowcancelingedit="GridViewEmployee_RowCancelingEdit" 
         onrowediting="GridViewEmployee_RowEditing" 
         onrowupdating="GridViewEmployee_RowUpdating" 
@@ -52,17 +52,12 @@
                     <asp:TextBox ID="TextBoxTeam" runat="server"/>
             </FooterTemplate>
         </asp:TemplateField>
-        <asp:TemplateField HeaderText="管理员ID">
-            <ItemTemplate>
-                <asp:Label ID="LabelID" runat="server" Text='<%# Bind("Id") %>'/>
-            </ItemTemplate>
-            <FooterTemplate>
-                <asp:Button ID="Button1" runat="server" Text="增  加" OnClick="Button1_Click" />
-            </FooterTemplate>
-        </asp:TemplateField>
         <asp:CommandField ShowEditButton="True" ShowDeleteButton HeaderText="操作" />
     </Columns>
     </asp:GridView>
+                <asp:Button ID="Button1" runat="server" Text="增  加" OnClick="Button1_Click" />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <asp:Button ID="Button2" runat="server" OnClick="Button2_Click" Text="返回" />
         </div>
     </form>
 </body>

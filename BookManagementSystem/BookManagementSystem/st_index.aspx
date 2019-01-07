@@ -8,8 +8,8 @@
     <title></title>
 </head>
 <body>
-    <form id="form1" runat="server">
-        <div>
+    <form id="form1" runat="server" >
+        <div align="center">
               <!-- 具有借书，还书，交罚款，查询图书功能--> 
             <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowCommand="GridView1_SelectedIndexChanged">
                   <Columns>
@@ -21,8 +21,10 @@
                     <asp:ButtonField CommandName="del" HeaderText="删除" Text="删除" />
                 </Columns>
             </asp:GridView>
+                    <a href="add.aspx">添加</a>
+        <asp:Button ID="st_back" runat="server" Text="返回" OnClick="st_back_Click" />
         </div>
-        <a href="add.aspx">添加</a>
+
     </form>
 </body>
 </html>

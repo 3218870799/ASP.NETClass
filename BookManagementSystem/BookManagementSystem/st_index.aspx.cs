@@ -93,4 +93,9 @@ public partial class _Default : System.Web.UI.Page
         conn.Close();
 
     }
+
+    protected void st_back_Click(object sender, EventArgs e)
+    {
+        Response.Redirect("Login.aspx");
+    }
 }

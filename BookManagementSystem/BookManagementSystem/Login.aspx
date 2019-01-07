@@ -7,8 +7,8 @@
     <title></title>
 </head>
 <body>
-    <form id="form1" runat="server">
-    <div>
+    <form id="form1" runat="server" >
+    <div align="center">
     
         用户名:
         <asp:TextBox ID="tx_username" runat="server"></asp:TextBox>
