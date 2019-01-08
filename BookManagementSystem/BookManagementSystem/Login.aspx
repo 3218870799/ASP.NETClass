@@ -53,7 +53,7 @@
 			 			<li></li>
 			 			<li>
                              <div align="center">
-							    <asp:RadioButtonList ID="RadioButtonList1" runat="server" AutoPostBack="True" RepeatDirection="Horizontal">
+							    <asp:RadioButtonList ID="RadioButtonList1" runat="server" RepeatDirection="Horizontal">
                                     <asp:ListItem>学生</asp:ListItem>
                                     <asp:ListItem>管理员</asp:ListItem>
                                 </asp:RadioButtonList>
