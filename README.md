@@ -1,12 +1,12 @@
 # ASP.NET Class Design
 
 ## 常见问题总结
- >> ExecuteNonQuery()返回值
+ >> ExecuteNonQuery()返回值<br/>
  ExecuteNonQuery()方法主要用户更新数据，通常它使用Update,Insert,Delete语句来操作数据库，
  其方法返回值意义：
  对于 Update,Insert,Delete 语句 执行成功是返回值为该命令所影响的行数，
  如果影响的行数为0时返回的值为0，如果数据操作回滚得话返回值为-1。
- >> 为数据源控件GridView后每一列添加自定义按钮
+ >> 为数据源控件GridView后每一列添加自定义按钮<br/>
  ```ASP
 <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" EnableModelValidation="True">
 	<Columns>
@@ -44,3 +44,24 @@ protected void ReturnBook(object sender, EventArgs e)
     }
 }
 ```
+>> ASP.NET中获取dropdownlist的选择始终不变<br/>
+这个问题是因为在点击了提交按钮后，页面会刷新再获取下拉列表内容
+此时无论选择什么获取的都是下拉列表的第一个，我们只需要判断是否是IsPostBack即可
+将加载下拉列表的方法放到判断里
+```C#
+protected void Page_Load(object sender, EventArgs e)
+{
+    if (!IsPostBack)
+    {
+        InitDropDownList();
+    }
+}
+```
+>> 下拉列表加载数据<br/>
+[方案总结](https://www.jb51.net/article/82642.htm)<br/>
+>> SQLserver中文无法查询<br/>
+```SQL
+select * from Roles 
+where RoleName like N'%系统%'
+```
+
