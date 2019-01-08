@@ -22,8 +22,8 @@ public partial class loginnew : System.Web.UI.Page
         string username = tx_username.Text.Trim();
         string password = tx_password.Text.Trim();
 
-        int type = RadioButtonList1.SelectedIndex;
-
+        int type = -1;
+            type = RadioButtonList1.SelectedIndex;
 
         //连接数据库
         string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
@@ -37,11 +37,16 @@ public partial class loginnew : System.Web.UI.Page
 
         if (type == 0) //学生登陆
         {
-            cmd.CommandText = "select * from [Student] where st_name=@loginname";
+            string sid = tx_username.Text.Trim();
+
+            int id = Convert.ToInt32(sid);
+
+            cmd.CommandText = "select * from [Student] where st_id=@id";
             cmd.CommandType = CommandType.Text;
             //添加查询对象
-            SqlParameter para = new SqlParameter("@loginname", SqlDbType.NVarChar, 50);
-            para.Value = username;
+            SqlParameter para = new SqlParameter("@id", SqlDbType.Int);
+            para.Value = id;
+
             cmd.Parameters.Add(para);
             try
             {
@@ -51,9 +56,9 @@ public partial class loginnew : System.Web.UI.Page
                 {
                     if (dr.GetString(6) == password)
                     {
-                        Session.Add("s_id", password);
+                        Session.Add("s_id", id);
                         tx_username.Text = "";
-                        Response.Redirect("st_index.aspx");
+                        Response.Redirect("StudentIndex.aspx");
                     }
                     else
                     {
@@ -72,7 +77,7 @@ public partial class loginnew : System.Web.UI.Page
                 Response.Write("连接异常");
             }
         }
-        else //管理员登陆
+        else if(type==1)//管理员登陆
         {
             cmd.CommandText = "select * from [Manager1] where username=@loginname";
             cmd.CommandType = CommandType.Text;
@@ -92,7 +97,7 @@ public partial class loginnew : System.Web.UI.Page
                     {
                         Session.Add("loginname", username);
                         tx_username.Text = "";
-                        Response.Redirect("m_index.aspx");
+                        Response.Redirect("AdminIndex.aspx");
                     }
                     else
                     {
@@ -111,6 +116,10 @@ public partial class loginnew : System.Web.UI.Page
                 Response.Write("连接异常");
             }
 
+        }
+        else
+        {
+            Response.Write("<script>alert('选择登陆类型')</script>");
         }
 
 

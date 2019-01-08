@@ -18,7 +18,7 @@ public class DataBase
     public static SqlConnection DBCon()
     {
         return new SqlConnection(
-            //"server=127.0.0.1;database=SMDB;user=sa;pwd=1234"
+            
             ConnectionString
             );
     }
