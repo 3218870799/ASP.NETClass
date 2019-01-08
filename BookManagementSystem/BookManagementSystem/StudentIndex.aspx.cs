@@ -14,15 +14,13 @@ public partial class StudentIndex : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         InitBorrowBook();
-        //InitDropDownList();
         if (!IsPostBack)
         {
             InitDropDownList();
         }
-        InitBook();
+        //InitBook();
         InitFineBook();
     }
-
     private DataSet GetDataSetBySql(String sql)
     {
         //连接数据库
@@ -38,22 +36,16 @@ public partial class StudentIndex : System.Web.UI.Page
         conn.Close();
         return ds;
     }
-
+    //加载罚款账单
     private void InitFineBook()
     {
         string sql = "SELECT * FROM Stu_fine";
         DataSet ds = GetDataSetBySql(sql);
-        Repeater2.DataSource=ds.Tables[0];
-        Repeater2.DataBind();       
+        GridView3.DataSource=ds.Tables[0];
+        GridView3.DataBind();       
     }
 
-    private void InitBook()
-    {
-
-
-    }
-
-
+    //过滤查询书籍
     protected void FilterBooks(object sender, EventArgs e)
     {
         string sql = "SELECT * FROM Book_info";
@@ -84,9 +76,10 @@ public partial class StudentIndex : System.Web.UI.Page
             sql = "SELECT * FROM Book_info where b_id = " + id;
         }
         DataSet ds = GetDataSetBySql(sql);
-        Repeater1.DataSource = ds.Tables[0];
-        Repeater1.DataBind();
+        GridView2.DataSource = ds.Tables[0];
+        GridView2.DataBind();
     }
+    //动态加载下拉列表书籍类别
     private void InitDropDownList()
     {
         string sql = "SELECT sort_name FROM Sort";
@@ -106,16 +99,80 @@ public partial class StudentIndex : System.Web.UI.Page
 
 
     }
+    //加载已经借的书
     private void InitBorrowBook()
     {
-        string sql = "SELECT [b_id], [b_name] FROM [st_borrow]";
+        string sql = "SELECT * FROM st_borrow";
         DataSet ds = GetDataSetBySql(sql);
         GridView1.DataSource = ds;
         GridView1.DataBind();
 
+        string recordSql = "SELECT * FROM stu_info";
+        DataSet recordds = GetDataSetBySql(recordSql);
+        GridView4.DataSource = recordds;
+        GridView4.DataBind();
+
     }
+    //借阅书籍
+    protected void BorrowBookClick(object sender, EventArgs e)
+    {
+        Response.Write("<script>alert('确定要订阅此书？')</script>");
+
+        //连接数据库
+        string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        SqlConnection conn = new SqlConnection(connstr);
+        conn.Open();
+
+        Button btn = (Button)sender;//注意控件类型的转换
+        string BookIdString = btn.CommandArgument;//获取得到控件绑定的对应值
+        int BookId = Convert.ToInt32(BookIdString);
+        Response.Write("<script>alert('"+BookId+"')</script>");
+        //TODO 从Sessin中获取学生Id
+        string SqlString = "exec  Procedure_st_borrow "+ 1001 +","+ BookId +";";
+
+        SqlCommand comm = new SqlCommand(SqlString, conn);
+        int result = comm.ExecuteNonQuery();
+        if (result == -1||result==0)
+        {
+            Response.Write("<script>alert('借阅失败，可能是库存不足或者信誉积分不足！')</script>");
+        }
+        else
+        {
+            Response.Write("<script>alert('借书成功！')</script>");
+            //FilterBooks();
+        }
 
 
 
+    }
+    //还书功能
+    protected void ReturnBook(object sender, EventArgs e)
+    {
+        Response.Write("<script>alert('确定要还此书？')</script>");
+
+        //连接数据库
+        string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        SqlConnection conn = new SqlConnection(connstr);
+        conn.Open();
+
+        Button btn = (Button)sender;//注意控件类型的转换
+        string BookIdString = btn.CommandArgument;//获取得到控件绑定的对应值
+        int BookId = Convert.ToInt32(BookIdString);
+        Response.Write("<script>alert('" + BookId + "')</script>");
+        //TODO 从Sessin中获取学生Id
+        string SqlString = "exec  Procedure_return " + 1001 + "," + BookId + ";";
+
+        SqlCommand comm = new SqlCommand(SqlString, conn);
+        int result = comm.ExecuteNonQuery();
+        if (result == -1 || result == 0)
+        {
+            Response.Write("<script>alert('借阅失败，可能是库存不足或者信誉积分不足！')</script>");
+        }
+        else
+        {
+            Response.Write("<script>alert('还书成功！')</script>");
+            //FilterBooks();
+        }
+    }
 
 }
