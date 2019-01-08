@@ -52,7 +52,7 @@
                     <asp:TextBox ID="TextBoxTeam" runat="server"/>
             </FooterTemplate>
         </asp:TemplateField>
-        <asp:CommandField ShowEditButton="True" ShowDeleteButton HeaderText="操作" />
+        <asp:CommandField ShowEditButton="True" ShowDeleteButton="true"  HeaderText="操作" />
     </Columns>
     </asp:GridView>
                 <asp:Button ID="Button1" runat="server" Text="增  加" OnClick="Button1_Click" />
