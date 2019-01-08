@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 
-public partial class _Default : System.Web.UI.Page 
+
+public partial class loginnew : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
-
     protected void longin_Click(object sender, EventArgs e)
     {
         SqlDataReader dr;
@@ -43,17 +43,13 @@ public partial class _Default : System.Web.UI.Page
             SqlParameter para = new SqlParameter("@loginname", SqlDbType.NVarChar, 50);
             para.Value = username;
             cmd.Parameters.Add(para);
-
             try
             {
-
                 conn.Open();
                 dr = cmd.ExecuteReader();
                 if (dr.Read())
                 {
-                    int pass = dr.GetInt32(0);
-                    string sa = Convert.ToString(pass);
-                    if (sa == password)
+                    if (dr.GetString(6) == password)
                     {
                         Session.Add("s_id", password);
                         tx_username.Text = "";
@@ -75,14 +71,13 @@ public partial class _Default : System.Web.UI.Page
             {
                 Response.Write("连接异常");
             }
-
         }
         else //管理员登陆
         {
             cmd.CommandText = "select * from [Manager1] where username=@loginname";
             cmd.CommandType = CommandType.Text;
             //添加查询对象
-            SqlParameter para = new SqlParameter("@loginname", SqlDbType.NVarChar,50);
+            SqlParameter para = new SqlParameter("@loginname", SqlDbType.NVarChar, 50);
             para.Value = username;
             cmd.Parameters.Add(para);
 
@@ -118,7 +113,7 @@ public partial class _Default : System.Web.UI.Page
 
         }
 
-       
+
         conn.Close();
 
     }

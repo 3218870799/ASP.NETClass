@@ -1,29 +1,86 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true"  CodeFile="Login.aspx.cs" Inherits="_Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeFile="Login.aspx.cs" Inherits="loginnew" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>登录</title>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
+    <link href="http://218.75.197.123:83/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://218.75.197.123:83/css/reset.css">
+    <link rel="stylesheet" type="text/css" href="http://218.75.197.123:83/css/style.css">
 </head>
-<body>
-    <form id="form1" runat="server" >
-    <div align="center">
-    
-        用户名:
-        <asp:TextBox ID="tx_username" runat="server"></asp:TextBox>
-        <br />
-        密 码 :
-        <asp:TextBox ID="tx_password" runat="server"  TextMode="Password"></asp:TextBox>
-        <br />
-        <asp:RadioButtonList ID="RadioButtonList1" runat="server" AutoPostBack="True" RepeatDirection="Horizontal">
-            <asp:ListItem>学生</asp:ListItem>
-            <asp:ListItem>管理员</asp:ListItem>
-        </asp:RadioButtonList>
-        <br />
-        <asp:Button ID="longin" runat="server" Text="登陆" OnClick="longin_Click" />
-    
-    </div>
-    </form>
-</body>
+<style>
+.QRcodeSkip{
+	width: 80px;
+	height: 70px;
+	position: absolute;
+	visibility: inherit;
+	right: 17.5%;
+	cursor: pointer;
+}
+.QRcode{
+	width: 300px;
+	height: 300px;
+	position: absolute;
+	visibility: inherit;
+	right: 21%;
+	top: 30%;
+}
+</style>
+<body class="login_bg">
+	<div id="login_content">
+		<div class="login_logo">
+			<img class="img-responsive" src="http://218.75.197.123:83/css/images/login_logo.png" >
+		</div>
+		<div class="login_box">
+			 <div class="box_left">
+			 	<img class="img-responsive" src="http://218.75.197.123:83/css/images/login_icon.png" >
+			 </div>
+			 <div class="box_right">
+			 	<form id="loginForm" name="loginForm" runat="server" >
+			 		<ul id="ul1" >
+			 			<li class="box_bt"><img class="img-responsive" src="http://218.75.197.123:83/css/images/user_icon.png"  style="float:left;margin:8px 8px 0 0">用户登录</li>
+			 			<li class="input-group input_li">
+							  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                              <asp:TextBox ID="tx_username" runat="server" type="text" class="form-control" name="userAccount" placeholder="请输入账号"></asp:TextBox>
+			 			</li>
+			 			<li class="input-group input_li">
+							  <span class="input-group-addon" id="basic-addon1"><i class="glyphicon glyphicon-lock"></i></span>
+                              <asp:TextBox ID="tx_password" runat="server" TextMode="Password" class="form-control" name="userPassword" placeholder="请输入密码"></asp:TextBox>						
+			 			</li>
+			 			<li></li>
+			 			<li>
+                             <div align="center">
+							    <asp:RadioButtonList ID="RadioButtonList1" runat="server" AutoPostBack="True" RepeatDirection="Horizontal">
+                                    <asp:ListItem>学生</asp:ListItem>
+                                    <asp:ListItem>管理员</asp:ListItem>
+                                </asp:RadioButtonList>
+                            </div>
+			 			</li>
+
+			 			<li class="input_li">
+                            <asp:Button ID="longin" runat="server" Text="登陆" OnClick="longin_Click" class="btn btn-primary login_btn"/>
+			 			</li>
+			 			<li class="input_li"  style="color: red; margin-bottom: 0;height: 10px;">
+			 			&nbsp;<font color="red">本系统不支持IE9及以下浏览器和360浏览器兼容模式</font><br>
+			 			</li>
+			 			<li class="input_li" id="showMsg" style="color: red; margin-bottom: 0;">
+							&nbsp;
+			 			</li>
+			 		</ul>
+			 	</form>
+			 </div>
+		</div>
+	</div>
+
+	<footer>Copyright by 肖其昌 陈磊 西雅</footer>
+
+
+    <script src="/framework/commonJs/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/js/jspublic.js"></script>
+	<script type="text/javascript" src="/framework/commonJs/jquery.min.js"></script>
+  </body>
 </html>
