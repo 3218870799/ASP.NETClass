@@ -32,7 +32,7 @@ a:active {
 .cs-north-bg {
 	width: 100%;
 	height: 100%;
-	background: url('images/header_bg.png') repeat-x;
+	background: url(themes/gray/images/header_bg.png) repeat-x;
 }
 .cs-north-logo {
 	height: 40px;
@@ -43,7 +43,7 @@ a:active {
 	width:200px;padding:0px;border-left:1px solid #99BBE8;
 }
 .cs-south {
-	height:25px;background:url('images/panel_title.gif') repeat-x;padding:0px;text-align:center;
+	height:25px;background:url('themes/gray/images/panel_title.gif') repeat-x;padding:0px;text-align:center;
 }
 .cs-navi-tab {
 	padding: 5px;
@@ -204,19 +204,20 @@ $(function() {
 	<div region="north" border="true" class="cs-north">
 		<div class="cs-north-bg"><div class="cs-north-logo">图书管理系统</div></div>
 	</div>
-	<div region="west" border="true" split="true" title="导航" class="cs-west layout-button-left">
+	<div region="west" border="true" split="true" title="导航" class="cs-west">
 		<div class="easyui-accordion" fit="true" border="false">
 				<div title="学生管理">
-					<a href="javascript:void(0);" src="demo/easyloader.html" class="cs-navi-tab">添加学生信息</a></p>
-					<a href="javascript:void(0);" src="demo/draggable.html" class="cs-navi-tab">修改学生信息</a></p>
-					<a href="javascript:void(0);" src="demo/droppable.html" class="cs-navi-tab">删除学生信息</a></p>
-					<a href="javascript:void(0);" src="demo/droppable1.html" class="cs-navi-tab">查找学生信息</a></p>
+					<a href="javascript:void(0);" src="student/add.aspx" class="cs-navi-tab">添加学生信息</a></p>
+					<a href="javascript:void(0);" src="student/update.aspx" class="cs-navi-tab">修改学生信息</a></p>
+					<a href="javascript:void(0);" src="student/delete.aspx" class="cs-navi-tab">删除学生信息</a></p>
+					<a href="javascript:void(0);" src="student/select.aspx" class="cs-navi-tab">查找学生信息</a></p>
+                    <a href="javascript:void(0);" src="student/money.aspx" class="cs-navi-tab">管理学生账单</a></p>
 				</div>
 				<div title="图书管理">
-					<a href="javascript:void(0);" src="demo/accordion.html" class="cs-navi-tab">添加图书信息</a></p>
-					<a href="javascript:void(0);" src="demo/layout.html" class="cs-navi-tab">修改图书信息</a></p>
-					<a href="javascript:void(0);" src="demo/layout1.html" class="cs-navi-tab">删除图书信息</a></p>
-					<a href="javascript:void(0);" src="demo/layout2.html" class="cs-navi-tab">查找图书信息</a></p>
+					<a href="javascript:void(0);" src="book/addbook.aspx" class="cs-navi-tab">添加图书信息</a></p>
+					<a href="javascript:void(0);" src="book/addsort.aspx" class="cs-navi-tab">添加图书分类</a></p>
+					<a href="javascript:void(0);" src="book/delete.aspx" class="cs-navi-tab">删除图书信息</a></p>
+					<a href="javascript:void(0);" src="book/select.aspx" class="cs-navi-tab">查找图书信息</a></p>
 				</div>
 		</div>
 	</div>
