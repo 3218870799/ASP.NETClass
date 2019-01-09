@@ -17,10 +17,13 @@ public partial class StudentIndex : System.Web.UI.Page
         if (!IsPostBack)
         {
             InitDropDownList();
+            InitPersonInfo();
         }
         //InitBook();
         InitFineBook();
+        
     }
+    //根据sql获取DataSet对象
     private DataSet GetDataSetBySql(String sql)
     {
         //连接数据库
@@ -36,15 +39,61 @@ public partial class StudentIndex : System.Web.UI.Page
         conn.Close();
         return ds;
     }
+    //加载个人信息
+    private void InitPersonInfo()
+    {
+        string idstring = Session["s_id"].ToString();
+        int id = Convert.ToInt32(idstring);
+        string sql = "Select * from Student where st_id = " + id;
+        DataSet ds = GetDataSetBySql(sql);
+        //Response.Write("<script>alert('" +ds.Tables[0].Rows[0][0] + "')</script>");
+        Label0.Text = ds.Tables[0].Rows[0][0].ToString();
+        TextBox6.Text = (string)ds.Tables[0].Rows[0][1];
+        Label2.Text = (string)ds.Tables[0].Rows[0][2];
+        Label3.Text = (string)ds.Tables[0].Rows[0][3];
+        Label4.Text = (string)ds.Tables[0].Rows[0][4];
+        Label5.Text = (string)ds.Tables[0].Rows[0][5].ToString();
+        TextBox5.Text = (string)ds.Tables[0].Rows[0][6];
+    }
+    //更新个人信息
+    protected void UpdatePersonInfo(object sender, EventArgs e)
+    {
+        //string sql = "UPDATE Student SET st_name = '" + TextBox6.Text + "',st_pw = '" + TextBox5.Text + "' WHERE st_id = " + 1001;
+        //Response.Write("<script>alert('"+ TextBox5.Text + "')</script>");
+
+        string idstring = Session["s_id"].ToString();
+        int id = Convert.ToInt32(idstring);
+
+        string sql = "UPDATE Student SET st_name = N'"+TextBox6.Text+"',st_pw = N'" + TextBox5.Text + "' WHERE st_id = " + id;
+        //连接数据库
+        string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+        SqlConnection conn = new SqlConnection(connstr);
+        conn.Open();
+
+        SqlCommand comm = new SqlCommand(sql, conn);
+        int result = comm.ExecuteNonQuery();
+
+        if (result == 1)
+        {
+            Response.Write("<script>alert('更新成功！')</script>");
+        }
+        else
+        {
+            Response.Write("<script>alert('更新失败！')</script>");
+        }
+
+
+    }
     //加载罚款账单
     private void InitFineBook()
     {
-        string sql = "SELECT * FROM Stu_fine";
+        string idstring = Session["s_id"].ToString();
+        int id = Convert.ToInt32(idstring);
+        string sql = "SELECT * FROM Stu_fine where st_id = "+ id;
         DataSet ds = GetDataSetBySql(sql);
         GridView3.DataSource=ds.Tables[0];
         GridView3.DataBind();       
     }
-
     //过滤查询书籍
     protected void FilterBooks(object sender, EventArgs e)
     {
@@ -55,7 +104,7 @@ public partial class StudentIndex : System.Web.UI.Page
         }
         if(DropDownList2.SelectedItem.Text== "只显示在馆书籍")
         {
-            sql = sql + " " + "And b_num = 0";
+            sql = sql + " " + "And b_num != 0";
         }
         if (TextBox1.Text != "")
         {
@@ -102,12 +151,14 @@ public partial class StudentIndex : System.Web.UI.Page
     //加载已经借的书
     private void InitBorrowBook()
     {
-        string sql = "SELECT * FROM st_borrow";
+        string idstring = Session["s_id"].ToString();
+        int id = Convert.ToInt32(idstring);
+        string sql = "SELECT * FROM st_borrow where st_id = " + id;
         DataSet ds = GetDataSetBySql(sql);
         GridView1.DataSource = ds;
         GridView1.DataBind();
 
-        string recordSql = "SELECT * FROM stu_info";
+        string recordSql = "SELECT * FROM stu_info where st_id = " + id;
         DataSet recordds = GetDataSetBySql(recordSql);
         GridView4.DataSource = recordds;
         GridView4.DataBind();
@@ -128,7 +179,10 @@ public partial class StudentIndex : System.Web.UI.Page
         int BookId = Convert.ToInt32(BookIdString);
         Response.Write("<script>alert('"+BookId+"')</script>");
         //TODO 从Sessin中获取学生Id
-        string SqlString = "exec  Procedure_st_borrow "+ 1001 +","+ BookId +";";
+        string idstring = Session["s_id"].ToString();
+        int id = Convert.ToInt32(idstring);
+
+        string SqlString = "exec  Procedure_st_borrow "+ id +","+ BookId +";";
 
         SqlCommand comm = new SqlCommand(SqlString, conn);
         int result = comm.ExecuteNonQuery();
@@ -160,7 +214,10 @@ public partial class StudentIndex : System.Web.UI.Page
         int BookId = Convert.ToInt32(BookIdString);
         Response.Write("<script>alert('" + BookId + "')</script>");
         //TODO 从Sessin中获取学生Id
-        string SqlString = "exec  Procedure_return " + 1001 + "," + BookId + ";";
+        string idstring = Session["s_id"].ToString();
+        int id = Convert.ToInt32(idstring);
+
+        string SqlString = "exec  Procedure_return " + id + "," + BookId + ";";
 
         SqlCommand comm = new SqlCommand(SqlString, conn);
         int result = comm.ExecuteNonQuery();

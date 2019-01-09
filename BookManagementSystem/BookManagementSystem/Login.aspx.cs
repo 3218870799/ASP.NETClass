@@ -57,6 +57,7 @@ public partial class loginnew : System.Web.UI.Page
                     if (dr.GetString(6) == password)
                     {
                         Session.Add("s_id", id);
+                                          
                         tx_username.Text = "";
                         Response.Redirect("StudentIndex.aspx");
                     }
