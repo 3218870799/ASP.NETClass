@@ -17,6 +17,7 @@ public partial class student_delete : System.Web.UI.Page
             BindGridView();
         }
     }
+
     private string GetConnectionString()
     {
         //Where MyConsString is the connetion string that was set up in the web config file
@@ -48,6 +49,7 @@ public partial class student_delete : System.Web.UI.Page
             cmd.Connection = connection;
 
             cmd.CommandText = sql;
+
             cmd.CommandType = CommandType.Text;
             //添加查询对象
             //SqlParameter para = new SqlParameter("@id", SqlDbType.NVarChar, 50);

@@ -11,6 +11,8 @@ using System.Collections;
 
 public partial class StudentIndex : System.Web.UI.Page
 {
+    DataBase db = new DataBase();
+
     protected void Page_Load(object sender, EventArgs e)
     {
         InitBorrowBook();
@@ -19,68 +21,89 @@ public partial class StudentIndex : System.Web.UI.Page
             InitDropDownList();
             InitPersonInfo();
         }
-        //InitBook();
         InitFineBook();
         
     }
     //根据sql获取DataSet对象
-    private DataSet GetDataSetBySql(String sql)
-    {
-        //连接数据库
-        string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        SqlConnection conn = new SqlConnection(connstr);
+    /*    
+        //TODO提取
+         private DataSet GetDataSetBySql(String sql)
+        {
+            //DataBase db = new DataBase();
 
-        DataSet ds = new DataSet();
+            //连接数据库
+            string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            SqlConnection conn = new SqlConnection(connstr);
 
-        SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+            DataSet ds = new DataSet();
 
-        conn.Open();
-        da.Fill(ds);
-        conn.Close();
-        return ds;
-    }
+            SqlDataAdapter da = new SqlDataAdapter(sql, conn);
+
+            conn.Open();
+            da.Fill(ds);
+            conn.Close();
+            return ds;
+        }
+        public int ExecuteSQL(String SqlString)
+        {
+            SqlConnection conn = DBCon();
+            conn.Open();
+            SqlCommand comm = new SqlCommand(SqlString, conn);
+            int result = comm.ExecuteNonQuery();
+            return result;
+        }
+    */
     //加载个人信息
     private void InitPersonInfo()
     {
         string idstring = Session["s_id"].ToString();
         int id = Convert.ToInt32(idstring);
         string sql = "Select * from Student where st_id = " + id;
-        DataSet ds = GetDataSetBySql(sql);
-        //Response.Write("<script>alert('" +ds.Tables[0].Rows[0][0] + "')</script>");
-        Label0.Text = ds.Tables[0].Rows[0][0].ToString();
-        TextBox6.Text = (string)ds.Tables[0].Rows[0][1];
-        Label2.Text = (string)ds.Tables[0].Rows[0][2];
-        Label3.Text = (string)ds.Tables[0].Rows[0][3];
-        Label4.Text = (string)ds.Tables[0].Rows[0][4];
-        Label5.Text = (string)ds.Tables[0].Rows[0][5].ToString();
-        TextBox5.Text = (string)ds.Tables[0].Rows[0][6];
+        DataRow dr = null;
+        try
+        {
+             dr= db.GetDataRow(sql);
+        }
+        catch
+        {
+            Response.Write("<script>alert('加载个人信息失败！')</script>");
+        }
+        Label0.Text = dr[0].ToString();
+        TextBox6.Text = (string)dr[1];
+        Label2.Text = (string)dr[2];
+        Label3.Text = (string)dr[3];
+        Label4.Text = (string)dr[4];
+        Label5.Text = (string)dr[5].ToString();
+        TextBox5.Text = (string)dr[6];
     }
     //更新个人信息
     protected void UpdatePersonInfo(object sender, EventArgs e)
     {
-        //string sql = "UPDATE Student SET st_name = '" + TextBox6.Text + "',st_pw = '" + TextBox5.Text + "' WHERE st_id = " + 1001;
-        //Response.Write("<script>alert('"+ TextBox5.Text + "')</script>");
-
         string idstring = Session["s_id"].ToString();
         int id = Convert.ToInt32(idstring);
 
         string sql = "UPDATE Student SET st_name = N'"+TextBox6.Text+"',st_pw = N'" + TextBox5.Text + "' WHERE st_id = " + id;
-        //连接数据库
-        string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        SqlConnection conn = new SqlConnection(connstr);
-        conn.Open();
 
-        SqlCommand comm = new SqlCommand(sql, conn);
-        int result = comm.ExecuteNonQuery();
-
-        if (result == 1)
+        /*        int result = db.ExecuteSQL(sql);
+                if (result == 1)
+                {
+                    Response.Write("<script>alert('更新成功！')</script>");
+                }
+                else
+                {
+                    Response.Write("<script>alert('更新失败！')</script>");
+                }
+        */
+        try
         {
-            Response.Write("<script>alert('更新成功！')</script>");
+            db.ExecuteSQL(sql);
         }
-        else
+        catch
         {
             Response.Write("<script>alert('更新失败！')</script>");
         }
+
+        Response.Write("<script>alert('更新成功！')</script>");
 
 
     }
@@ -90,7 +113,15 @@ public partial class StudentIndex : System.Web.UI.Page
         string idstring = Session["s_id"].ToString();
         int id = Convert.ToInt32(idstring);
         string sql = "SELECT * FROM Stu_fine where st_id = "+ id;
-        DataSet ds = GetDataSetBySql(sql);
+        DataSet ds = null;
+        try
+        {
+            ds = db.GetDataSet(sql);
+        }
+        catch
+        {
+            Response.Write("<script>alert('加载罚单失败！请重新加载')</script>");
+        }        
         GridView3.DataSource=ds.Tables[0];
         GridView3.DataBind();       
     }
@@ -98,33 +129,70 @@ public partial class StudentIndex : System.Web.UI.Page
     protected void FilterBooks(object sender, EventArgs e)
     {
         string sql = "SELECT * FROM Book_info";
-        if (DropDownList1.SelectedItem.Text != "请选择类别")
+        int flag = 0;
+
+        if(DropDownList2.SelectedItem.Text == "只显示在馆书籍"|| DropDownList1.SelectedItem.Text != "请选择类别"|| TextBox1.Text != ""|| TextBox2.Text != ""|| TextBox3.Text != "")
         {
-            sql = sql + "  "+ "WHERE sort_name =" + " N'"+ DropDownList1.SelectedItem.Text+"'";           
+            sql = sql + " WHERE ";
+            if (DropDownList2.SelectedItem.Text == "只显示在馆书籍")
+            {
+                    sql = sql + " " + "b_num != 0";
+                    flag = 1;
+            }
+            if (DropDownList1.SelectedItem.Text != "请选择类别")
+            {
+                if (flag == 1)
+                {
+                    sql = sql + " AND ";
+                }
+                sql = sql + "  " + "sort_name =" + " N'" + DropDownList1.SelectedItem.Text + "'";
+                flag = 1;
+            }
+            if (TextBox1.Text != "")
+            {
+                if (flag == 1)
+                {
+                    sql = sql + " AND ";
+                }
+                sql = sql + " " + "b_author like N'%" + TextBox1.Text + "%'";
+                flag = 1;
+            }
+            if (TextBox2.Text != "")
+            {
+                if (flag == 1)
+                {
+                    sql = sql + " AND ";
+                }
+                sql = sql + " " + "b_name like N'%" + TextBox2.Text + "%'";
+                flag = 1;
+            }
+            if (TextBox3.Text != "")
+            {
+                if (flag == 1)
+                {
+                    sql = sql + " AND ";
+                }
+                sql = sql + " " + "b_press like N'%" + TextBox3.Text + "%'";
+                flag = 1;
+            }
         }
-        if(DropDownList2.SelectedItem.Text== "只显示在馆书籍")
-        {
-            sql = sql + " " + "And b_num != 0";
-        }
-        if (TextBox1.Text != "")
-        {
-            sql = sql + " " + "AND b_author like N'%" + TextBox1.Text + "%'";        
-        }
-        if (TextBox2.Text != "")
-        {
-            sql = sql + " " + "and b_name like N'%" + TextBox2.Text + "%'";
-        }
-        if (TextBox3.Text != "")
-        {
-            sql = sql = " " + "and b_press like N'%" + TextBox3.Text + "%'";
-        }
+        
         if (TextBox4.Text != "")
         {
             string BookId= TextBox4.Text;
             int id = Convert.ToInt32(BookId);
             sql = "SELECT * FROM Book_info where b_id = " + id;
         }
-        DataSet ds = GetDataSetBySql(sql);
+        DataSet ds = null;
+        try
+        {
+            ds = db.GetDataSet(sql);
+        }
+        catch
+        {
+            Response.Write("<script>alert('加载数据失败！')</script>");
+        }
+        
         GridView2.DataSource = ds.Tables[0];
         GridView2.DataBind();
     }
@@ -132,7 +200,8 @@ public partial class StudentIndex : System.Web.UI.Page
     private void InitDropDownList()
     {
         string sql = "SELECT sort_name FROM Sort";
-        DataSet ds = GetDataSetBySql(sql);
+
+        DataSet ds = db.GetDataSet(sql);
 
         //将查询数据置于数组中
         ArrayList ar = new ArrayList();
@@ -154,12 +223,16 @@ public partial class StudentIndex : System.Web.UI.Page
         string idstring = Session["s_id"].ToString();
         int id = Convert.ToInt32(idstring);
         string sql = "SELECT * FROM st_borrow where st_id = " + id;
-        DataSet ds = GetDataSetBySql(sql);
+
+        DataSet ds = db.GetDataSet(sql);
+
         GridView1.DataSource = ds;
         GridView1.DataBind();
 
         string recordSql = "SELECT * FROM stu_info where st_id = " + id;
-        DataSet recordds = GetDataSetBySql(recordSql);
+
+        DataSet recordds = db.GetDataSet(recordSql);
+
         GridView4.DataSource = recordds;
         GridView4.DataBind();
 
@@ -168,12 +241,6 @@ public partial class StudentIndex : System.Web.UI.Page
     protected void BorrowBookClick(object sender, EventArgs e)
     {
         Response.Write("<script>alert('确定要订阅此书？')</script>");
-
-        //连接数据库
-        string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        SqlConnection conn = new SqlConnection(connstr);
-        conn.Open();
-
         Button btn = (Button)sender;//注意控件类型的转换
         string BookIdString = btn.CommandArgument;//获取得到控件绑定的对应值
         int BookId = Convert.ToInt32(BookIdString);
@@ -184,8 +251,8 @@ public partial class StudentIndex : System.Web.UI.Page
 
         string SqlString = "exec  Procedure_st_borrow "+ id +","+ BookId +";";
 
-        SqlCommand comm = new SqlCommand(SqlString, conn);
-        int result = comm.ExecuteNonQuery();
+        int result = db.ExecuteSQL(SqlString);
+
         if (result == -1||result==0)
         {
             Response.Write("<script>alert('借阅失败，可能是库存不足或者信誉积分不足！')</script>");
@@ -195,19 +262,11 @@ public partial class StudentIndex : System.Web.UI.Page
             Response.Write("<script>alert('借书成功！')</script>");
             //FilterBooks();
         }
-
-
-
     }
     //还书功能
     protected void ReturnBook(object sender, EventArgs e)
     {
         Response.Write("<script>alert('确定要还此书？')</script>");
-
-        //连接数据库
-        string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        SqlConnection conn = new SqlConnection(connstr);
-        conn.Open();
 
         Button btn = (Button)sender;//注意控件类型的转换
         string BookIdString = btn.CommandArgument;//获取得到控件绑定的对应值
@@ -219,8 +278,8 @@ public partial class StudentIndex : System.Web.UI.Page
 
         string SqlString = "exec  Procedure_return " + id + "," + BookId + ";";
 
-        SqlCommand comm = new SqlCommand(SqlString, conn);
-        int result = comm.ExecuteNonQuery();
+        int result = db.ExecuteSQL(SqlString);
+
         if (result == -1 || result == 0)
         {
             Response.Write("<script>alert('借阅失败，可能是库存不足或者信誉积分不足！')</script>");
@@ -228,7 +287,6 @@ public partial class StudentIndex : System.Web.UI.Page
         else
         {
             Response.Write("<script>alert('还书成功！')</script>");
-            //FilterBooks();
         }
     }
 

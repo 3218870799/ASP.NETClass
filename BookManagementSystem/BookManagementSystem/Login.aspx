@@ -7,41 +7,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>登录</title>
 
-    <link href="http://218.75.197.123:83/bootstrap/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="http://218.75.197.123:83/css/reset.css">
-    <link rel="stylesheet" type="text/css" href="http://218.75.197.123:83/css/style.css">
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
 </head>
-<style>
-.QRcodeSkip{
-	width: 80px;
-	height: 70px;
-	position: absolute;
-	visibility: inherit;
-	right: 17.5%;
-	cursor: pointer;
-}
-.QRcode{
-	width: 300px;
-	height: 300px;
-	position: absolute;
-	visibility: inherit;
-	right: 21%;
-	top: 30%;
-}
-</style>
 <body class="login_bg">
 	<div id="login_content">
 		<div class="login_logo">
-			<img class="img-responsive" src="http://218.75.197.123:83/css/images/login_logo.png" >
+			<img class="img-responsive" src="images/logo.png" >
 		</div>
 		<div class="login_box">
 			 <div class="box_left">
-			 	<img class="img-responsive" src="http://218.75.197.123:83/css/images/login_icon.png" >
+			 	<img class="img-responsive" src="images/login_icon.png" >
 			 </div>
 			 <div class="box_right">
 			 	<form id="loginForm" name="loginForm" runat="server" >
 			 		<ul id="ul1" >
-			 			<li class="box_bt"><img class="img-responsive" src="http://218.75.197.123:83/css/images/user_icon.png"  style="float:left;margin:8px 8px 0 0">用户登录</li>
+			 			<li class="box_bt"><img class="img-responsive" src="images/user_icon.png"  style="float:left;margin:8px 8px 0 0">用户登录</li>
 			 			<li class="input-group input_li">
 							  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                               <asp:TextBox ID="tx_username" runat="server" type="text" class="form-control" name="userAccount" placeholder="请输入账号"></asp:TextBox>

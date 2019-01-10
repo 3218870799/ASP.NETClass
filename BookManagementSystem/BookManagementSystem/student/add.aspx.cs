@@ -31,6 +31,7 @@ public partial class _Default : System.Web.UI.Page
         
         string sid= st_id.Text.Trim();
         int id = Convert.ToInt32(sid);
+
         para1.Value = id;
         cmd.Parameters.Add(para1);
 

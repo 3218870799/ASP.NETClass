@@ -10,36 +10,40 @@ using System.Data;
 
 public class DataBase
 {
-    private const string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|" +
-        "\\MyDb.mdf;Integrated Security=True";
+    private const string ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\MyDb.mdf;Integrated Security=True; pooling=false";
 
     public DataBase()
     { }
+    //获取连接
     public static SqlConnection DBCon()
     {
-        return new SqlConnection(
-            
+        return new SqlConnection(           
             ConnectionString
             );
     }
-
-    public void ExecuteSQL(String SqlString)
-    {
-        SqlConnection conn = DBCon();
-        conn.Open();
-        SqlCommand comm = new SqlCommand(SqlString, conn);
-        comm.ExecuteNonQuery();
-    }
+    //根据SQL获取DataSet对象
     public DataSet GetDataSet(String SqlString)
     {
         SqlConnection conn = DBCon();
         conn.Open();
         SqlDataAdapter adapter = new SqlDataAdapter(SqlString, conn);
         DataSet dataset = new DataSet();
+
         adapter.Fill(dataset);
+                
         conn.Close();
         return dataset;
     }
+    //执行SQL语句
+    public int ExecuteSQL(String SqlString)
+    {
+        SqlConnection conn = DBCon();
+        conn.Open();
+        SqlCommand comm = new SqlCommand(SqlString, conn);
+        int result = comm.ExecuteNonQuery();
+        return result;
+    }
+    //获取一行数据
     public DataRow GetDataRow(string SqlString)
     {
         DataSet dataset = GetDataSet(SqlString);
@@ -48,14 +52,4 @@ public class DataBase
         else
             return null;
     }
-    public string GetDataString(string SqlString)
-    {
-        DataSet dataset = GetDataSet(SqlString);
-        string result = dataset.ToString();
-        return result;
-    }
-
-
-
-
 }

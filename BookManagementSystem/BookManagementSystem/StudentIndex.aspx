@@ -65,37 +65,37 @@
 
                             <asp:GridView ID="GridView2" runat="server" AutoGenerateColumns="False" EnableModelValidation="True">
                                 <Columns>
-                                    <asp:TemplateField HeaderText="书籍编号">
+                                    <asp:TemplateField HeaderText="——书籍编号——   ">
                                          <ItemTemplate>
                                             <asp:Label ID="BookId" runat="server" Text='<%# Bind("b_id") %>'/>
                                         </ItemTemplate>
                                     </asp:TemplateField >
-                                    <asp:TemplateField HeaderText="图书名称">
+                                    <asp:TemplateField HeaderText="——图书名称——">
                                          <ItemTemplate>
                                             <asp:Label ID="BookName" runat="server" Text='<%# Bind("b_name") %>'/>
                                         </ItemTemplate>
                                     </asp:TemplateField >
-                                    <asp:TemplateField HeaderText="图书作者">
+                                    <asp:TemplateField HeaderText="——图书作者——">
                                          <ItemTemplate>
                                             <asp:Label ID="BookAuthor" runat="server" Text='<%# Bind("b_author") %>'/>
                                         </ItemTemplate>
                                     </asp:TemplateField >
-                                    <asp:TemplateField HeaderText="图书出版社">
+                                    <asp:TemplateField HeaderText="——图书出版社——">
                                          <ItemTemplate>
                                             <asp:Label ID="BookPress" runat="server" Text='<%# Bind("b_press") %>'/>
                                         </ItemTemplate>
                                     </asp:TemplateField >
-                                    <asp:TemplateField HeaderText="库存量">
+                                    <asp:TemplateField HeaderText="——库存量——">
                                          <ItemTemplate>
                                             <asp:Label ID="BookNum" runat="server" Text='<%# Bind("b_num") %>'/>
                                         </ItemTemplate>
                                     </asp:TemplateField >
-                                    <asp:TemplateField HeaderText="图书类别">
+                                    <asp:TemplateField HeaderText="——图书类别——">
                                          <ItemTemplate>
                                             <asp:Label ID="SotrName" runat="server" Text='<%# Bind("sort_name") %>'/>
                                         </ItemTemplate>
                                     </asp:TemplateField >
-                                    <asp:TemplateField HeaderText="借阅按钮">
+                                    <asp:TemplateField HeaderText="——借阅按钮——">
                                          <ItemTemplate>
                                              <asp:Button ID="Button2" runat="server" Text="借阅此书" onClick="BorrowBookClick" CommandArgument='<%#Eval("b_id") %>'/>
                                         </ItemTemplate>
@@ -123,37 +123,37 @@
                                 <p>未还书籍记录</p>
                                   <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" EnableModelValidation="True">
                                     <Columns>
-                                        <asp:TemplateField HeaderText="学生学号">
+                                        <asp:TemplateField HeaderText="——学生学号——">
                                              <ItemTemplate>
                                                 <asp:Label ID="StuNumBorrow" runat="server" Text='<%# Bind("st_id") %>'/>
                                             </ItemTemplate>
                                         </asp:TemplateField >
-                                        <asp:TemplateField HeaderText="学生姓名">
+                                        <asp:TemplateField HeaderText="——学生姓名——">
                                              <ItemTemplate>
                                                 <asp:Label ID="StuNameBorrow" runat="server" Text='<%# Bind("st_name") %>'/>
                                             </ItemTemplate>
                                         </asp:TemplateField >
-                                        <asp:TemplateField HeaderText="图书编号">
+                                        <asp:TemplateField HeaderText="——图书编号——">
                                              <ItemTemplate>
                                                 <asp:Label ID="BookIdBorrow" runat="server" Text='<%# Bind("b_id") %>'/>
                                             </ItemTemplate>
                                         </asp:TemplateField >
-                                        <asp:TemplateField HeaderText="图书名称">
+                                        <asp:TemplateField HeaderText="——图书名称——">
                                              <ItemTemplate>
                                                 <asp:Label ID="BookNameBorrow" runat="server" Text='<%# Bind("b_name") %>'/>
                                             </ItemTemplate>
                                         </asp:TemplateField >
-                                        <asp:TemplateField HeaderText="借阅时间">
+                                        <asp:TemplateField HeaderText="——借阅时间——">
                                              <ItemTemplate>
                                                 <asp:Label ID="BorrowDate" runat="server" Text='<%# Bind("borrow_date") %>'/>
                                             </ItemTemplate>
                                         </asp:TemplateField >
-                                        <asp:TemplateField HeaderText="预期归还时间">
+                                        <asp:TemplateField HeaderText="——预期归还时间——">
                                              <ItemTemplate>
                                                 <asp:Label ID="WantDate" runat="server" Text='<%# Bind("want_date") %>'/>
                                             </ItemTemplate>
                                         </asp:TemplateField >
-                                        <asp:TemplateField HeaderText="归还图书">
+                                        <asp:TemplateField HeaderText="——归还图书——">
                                             <ItemTemplate>
                                                 <asp:Button ID="Button3" runat="server" Text="还书" OnClick="ReturnBook" CommandArgument='<%#Eval("b_id") %>'/>
                                             </ItemTemplate>
@@ -163,32 +163,32 @@
                                 <p>已还书籍记录</p>
                                 <asp:GridView ID="GridView4" runat="server" AutoGenerateColumns="False" EnableModelValidation="True">
                                      <Columns>
-                                        <asp:TemplateField HeaderText="学生学号">
+                                        <asp:TemplateField HeaderText="——学生学号——">
                                              <ItemTemplate>
                                                 <asp:Label ID="StuNumRecord" runat="server" Text='<%# Bind("st_id") %>'/>
                                             </ItemTemplate>
                                         </asp:TemplateField >
-                                        <asp:TemplateField HeaderText="学生姓名">
+                                        <asp:TemplateField HeaderText="——学生姓名——">
                                              <ItemTemplate>
                                                 <asp:Label ID="StuNameRecord" runat="server" Text='<%# Bind("st_name") %>'/>
                                             </ItemTemplate>
                                         </asp:TemplateField >
-                                        <asp:TemplateField HeaderText="图书编号">
+                                        <asp:TemplateField HeaderText="——图书编号——">
                                              <ItemTemplate>
                                                 <asp:Label ID="BookIdRecord" runat="server" Text='<%# Bind("b_id") %>'/>
                                             </ItemTemplate>
                                         </asp:TemplateField >
-                                        <asp:TemplateField HeaderText="图书名称">
+                                        <asp:TemplateField HeaderText="——图书名称——">
                                              <ItemTemplate>
                                                 <asp:Label ID="BookNameRecord" runat="server" Text='<%# Bind("b_name") %>'/>
                                             </ItemTemplate>
                                         </asp:TemplateField >
-                                        <asp:TemplateField HeaderText="借阅时间">
+                                        <asp:TemplateField HeaderText="——借阅时间——">
                                              <ItemTemplate>
                                                 <asp:Label ID="RecordDate" runat="server" Text='<%# Bind("borrow_date") %>'/>
                                             </ItemTemplate>
                                         </asp:TemplateField >
-                                        <asp:TemplateField HeaderText="实际归还时间">
+                                        <asp:TemplateField HeaderText="——实际归还时间——">
                                              <ItemTemplate>
                                                 <asp:Label ID="RecordWantDate" runat="server" Text='<%# Bind("real_date") %>'/>
                                             </ItemTemplate>
@@ -204,22 +204,22 @@
                         <div class="content-block">
                             <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" EnableModelValidation="True">
                                 <Columns>
-                                    <asp:TemplateField HeaderText="学生学号">
+                                    <asp:TemplateField HeaderText="——学生学号——">
                                          <ItemTemplate>
                                             <asp:Label ID="StuId" runat="server" Text='<%# Bind("st_id") %>'/>
                                         </ItemTemplate>
                                     </asp:TemplateField >
-                                    <asp:TemplateField HeaderText="图书名称">
+                                    <asp:TemplateField HeaderText="——图书名称——">
                                          <ItemTemplate>
                                             <asp:Label ID="FineBookName" runat="server" Text='<%# Bind("b_name") %>'/>
                                         </ItemTemplate>
                                     </asp:TemplateField >
-                                    <asp:TemplateField HeaderText="以超期时间">
+                                    <asp:TemplateField HeaderText="——以超期时间——">
                                          <ItemTemplate>
                                             <asp:Label ID="AllOverDate" runat="server" Text='<%# Bind("over_date") %>'/>
                                         </ItemTemplate>
                                     </asp:TemplateField >
-                                    <asp:TemplateField HeaderText="欠费金额">
+                                    <asp:TemplateField HeaderText="——欠费金额——">
                                          <ItemTemplate>
                                             <asp:Label ID="FineMoney" runat="server" Text='<%# Bind("fine") %>'/>
                                         </ItemTemplate>

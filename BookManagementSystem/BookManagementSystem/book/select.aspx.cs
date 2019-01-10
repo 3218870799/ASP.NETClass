@@ -42,7 +42,7 @@ public partial class book_select : System.Web.UI.Page
             }
             else if (type == 1)
             {
-                sql = "SELECT * FROM Book_info WHERE b_name=N'" + id + "'";
+                sql = "SELECT * FROM Book_info WHERE b_author=N'" + id + "'";
             }
             else
             {
