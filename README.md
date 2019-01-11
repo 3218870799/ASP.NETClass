@@ -1,6 +1,36 @@
 # ASP.NET Class Design
+## 功能简介
+#### 学生系统部分
+按照不同要求组合查询书籍信息<br/>
+借阅书籍<br/>
+查看自己的借书信息<br/>
+归还书籍<br/>
+查看自己的借书记录<br/>
+查看自己的账单<br/>
+查看个人信息<br/>
+修改个人信息<br/>
+#### 管理员系统部分
+录入学生信息<br/>
+查询学生信息<br/>
+修改学生信息<br/>
+删除学生信息<br/>
+管理学生账单记录<br/>
+录入书籍信息<br/>
+添加图书分类<br/>
+删除书籍信息<br/>
+查找书籍信息<br/>
+## 系统流程图
+![系统流程图](https://github.com/3218870799/BookManagementSystem/blob/master/BookManagementSystem/READMEIMAGE/%E7%B3%BB%E7%BB%9F%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+## 效果展示图
+>> 学生系统效果图
+![学生系统效果图](https://github.com/3218870799/BookManagementSystem/blob/master/BookManagementSystem/READMEIMAGE/%E5%AD%A6%E7%94%9F%E7%B3%BB%E7%BB%9F%E6%95%88%E6%9E%9C%E5%9B%BE.gif)
+>> 管理员系统效果图
+![管理员系统效果图](https://github.com/3218870799/BookManagementSystem/blob/master/BookManagementSystem/READMEIMAGE/%E7%AE%A1%E7%90%86%E5%91%98%E7%B3%BB%E7%BB%9F%E6%95%88%E6%9E%9C%E5%9B%BE.gif)
 
 ## 常见问题总结
+#### 定时执行任务
+>> 对于学生借阅产生罚单，需要在系统午夜0点定时执行该任务
+
 #### ExecuteNonQuery()返回值<br/>
 >> ExecuteNonQuery()方法主要用户更新数据，通常它使用Update,Insert,Delete语句来操作数据库，
  其方法返回值意义：
