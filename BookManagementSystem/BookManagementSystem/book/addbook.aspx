@@ -20,9 +20,10 @@
             <br />
             数 量：<asp:TextBox ID="b_num" runat="server"></asp:TextBox>
             <br />
-            类别号：<asp:TextBox ID="sort_id" runat="server"></asp:TextBox>
             <br />
-            类别名：<asp:TextBox ID="sort_name" runat="server"></asp:TextBox>
+            类别名：<asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource1" DataTextField="sort_name" DataValueField="sort_name">
+            </asp:DropDownList>
+            <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:ConnectionString %>" SelectCommand="SELECT [sort_name] FROM [Sort]"></asp:SqlDataSource>
             <br />
             <br />
             <asp:Button ID="submit" runat="server" Text="确定" OnClick="submit_Click" />

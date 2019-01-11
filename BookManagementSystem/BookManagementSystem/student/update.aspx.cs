@@ -118,20 +118,20 @@ public partial class student_update1 : System.Web.UI.Page
 
     protected void GridViewEmployee_RowEditing(object sender, GridViewEditEventArgs e)
     {
-        GridViewEmployee1.EditIndex = e.NewEditIndex; // turn to edit mode
-        BindGridView(); // Rebind GridView to show the data in edit mode
+        GridViewEmployee1.EditIndex = e.NewEditIndex; // 切换到可编辑模式
+        BindGridView(); //重新绑定数据
     }
 
     protected void GridViewEmployee_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
-        GridViewEmployee1.EditIndex = -1; //swicth back to default mode
-        BindGridView(); // Rebind GridView to show the data in default mode
+        GridViewEmployee1.EditIndex = -1; //通过 EditIndex 判断 GridView 中的某一 Row，是否处于编辑状态。
+        //编辑状态中的 EditIndex >= 0; EditIndex < 0 或 EditIndex = -1 都表示 GridView 中没有正在编辑的Row。
+        BindGridView(); 
     }
 
     protected void GridViewEmployee_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
-        //Accessing Edited values from the GridView
-        //string id = ((Label)GridViewEmployee.Rows[e.RowIndex].Cells[3].FindControl("LabelID")).Text; //ID
+
         string id = ((TextBox)GridViewEmployee1.Rows[e.RowIndex].Cells[0].FindControl("TextBoxEditid")).Text; //Employee
         string name = ((TextBox)GridViewEmployee1.Rows[e.RowIndex].Cells[1].FindControl("TextBoxEditname")).Text; //Position
         string sex = ((TextBox)GridViewEmployee1.Rows[e.RowIndex].Cells[2].FindControl("TextBoxEditsex")).Text; //Team
@@ -139,11 +139,11 @@ public partial class student_update1 : System.Web.UI.Page
         string class1 = ((TextBox)GridViewEmployee1.Rows[e.RowIndex].Cells[4].FindControl("TextBoxEditclass")).Text;
         string credit= ((TextBox)GridViewEmployee1.Rows[e.RowIndex].Cells[5].FindControl("TextBoxEditcredit")).Text;
         string password = ((TextBox)GridViewEmployee1.Rows[e.RowIndex].Cells[6].FindControl("TextBoxEditpw")).Text;
-        UpdateRecord(id, name, sex,dept, class1,  credit, password); // call update method
+        UpdateRecord(id, name, sex,dept, class1,  credit, password); // 调用函数
 
-        GridViewEmployee1.EditIndex = -1; //Turn the Grid to read only mode
+        GridViewEmployee1.EditIndex = -1; 
 
-        BindGridView(); // Rebind GridView to reflect changes made
+        BindGridView(); 
 
         Response.Write("<script>alert('修改成功')</script>");
 

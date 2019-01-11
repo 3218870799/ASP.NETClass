@@ -83,8 +83,9 @@ public partial class book_addbook : System.Web.UI.Page
 
         SqlParameter para1 = new SqlParameter("@sort_id", SqlDbType.Int);
 
-        string id = sort_id.Text.Trim();
-        int sid = Convert.ToInt32(id);
+        string name = DropDownList1.SelectedItem.Text;
+
+        int sid = getsortid(name);
         para1.Value = sid;
         cmd.Parameters.Add(para1);
 
@@ -97,7 +98,7 @@ public partial class book_addbook : System.Web.UI.Page
         cmd.Parameters.Add(para3);
 
         SqlParameter para2 = new SqlParameter("@sort_name", SqlDbType.NVarChar, 50);
-        para2.Value = sort_name.Text.Trim();
+        para2.Value = name;
         cmd.Parameters.Add(para2);
 
         try
@@ -113,9 +114,39 @@ public partial class book_addbook : System.Web.UI.Page
         }
         catch
         {
-            Response.Write("发生异常");
+            Response.Write("发生异常 lei");
         }
         conn.Close();
+
+    }
+    //返回图书类别的id
+    private int getsortid(string sort_name)
+    {
+        DataBase db = new DataBase();
+        int id=0;
+        string sql = "SELECT * FROM Sort WHERE sort_name=N'"+sort_name+"'";
+
+        try
+        {
+
+            
+            // Response.Write("1");
+
+            //  Response.Write("2");
+            DataRow dr = db.GetDataRow(sql);
+            // SqlDataReader dr = cmd.ExecuteReader();
+            id = (int)dr[0];
+            Response.Write(id);
+            
+            
+
+        }
+        catch
+        {
+            Response.Write("发生异常 id");
+            
+        }
+        return id;
 
     }
 

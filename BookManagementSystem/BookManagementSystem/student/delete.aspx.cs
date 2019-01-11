@@ -106,11 +106,11 @@ public partial class student_delete : System.Web.UI.Page
     }
     protected void GridViewEmployee_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-        //get the ID of the selected row
+        //返回选中行的ID
         string id = ((Label)GridViewEmployee1.Rows[e.RowIndex].Cells[0].FindControl("Labelid")).Text;
-        DeleteRecord(id); //call the method for delete
+        DeleteRecord(id); //传递参数，调用函数
 
-        BindGridView(); // Rebind GridView to reflect changes made
+        BindGridView(); //重新绑定数据
 
     }
 

@@ -129,12 +129,14 @@ public partial class book_delete : System.Web.UI.Page
     }
     protected void GridViewEmployee_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-        //get the ID of the selected row
+        
+       
         string id = ((Label)GridViewEmployee1.Rows[e.RowIndex].Cells[0].FindControl("Labelid")).Text;
+        //多对多关系 先删除book_sort表
         DeleteRecord1(id);
-        DeleteRecord(id); //call the method for delete
+        DeleteRecord(id); 
 
-        BindGridView(); // Rebind GridView to reflect changes made
+        BindGridView(); 
 
     }
 
