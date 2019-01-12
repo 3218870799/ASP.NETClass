@@ -10,104 +10,41 @@ using System.Web.UI.WebControls;
 
 public partial class book_addbook : System.Web.UI.Page
 {
+    DataBase db = new DataBase();
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
-//book表添加
+    //book表添加
     private void addbook() {
-        string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        SqlConnection conn = new SqlConnection(connstr);
-
-        //新建command对象
-        SqlCommand cmd = new SqlCommand();
-        cmd.Connection = conn;
-        cmd.CommandText = "INSERT INTO [Book] values(@b_id,@b_name,@b_author,@b_press,@b_num)";
-        cmd.CommandType = CommandType.Text;
-
-        SqlParameter para1 = new SqlParameter("@b_id", SqlDbType.Int);
-
         string sid = b_id.Text.Trim();
         int id = Convert.ToInt32(sid);
-        para1.Value = id;
-        cmd.Parameters.Add(para1);
-
-        SqlParameter para2 = new SqlParameter("@b_name", SqlDbType.NVarChar, 50);
-        para2.Value = b_name.Text.Trim();
-        cmd.Parameters.Add(para2);
-
-        SqlParameter para3 = new SqlParameter("@b_author", SqlDbType.NVarChar, 50);
-        para3.Value = b_author.Text.Trim();
-        cmd.Parameters.Add(para3);
-
-        SqlParameter para4 = new SqlParameter("@b_press", SqlDbType.NVarChar, 50);
-        para4.Value = b_press.Text.Trim();
-        cmd.Parameters.Add(para4);
-
-        SqlParameter para5 = new SqlParameter("@b_num", SqlDbType.NVarChar, 50);
-
+        string name = b_name.Text.Trim();
+        string author = b_author.Text.Trim();
+        string press = b_press.Text.Trim();
         string num = b_num.Text.Trim();
         int num1 = Convert.ToInt32(num);
-        para5.Value = num1;
-        cmd.Parameters.Add(para5);
-
-
-
+        string sql = "INSERT INTO [Book] values("+id+","+name+","+author+","+press+","+num1+")";
         try
         {
-
-            conn.Open();
-            //Response.Write("1");
-            cmd.ExecuteNonQuery();
-           // Response.Write("2");
-
+            db.ExecuteSQL(sql);
         }
         catch
         {
             Response.Write("发生异常");
         }
-        conn.Close();
     }
     //book_sort表添加
     private void addsort() {
-        string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        SqlConnection conn = new SqlConnection(connstr);
-
-        //新建command对象
-        SqlCommand cmd = new SqlCommand();
-        cmd.Connection = conn;
-        cmd.CommandText = "INSERT INTO [Book_sort] values(@sort_id,@b_id,@sort_name)";
-        cmd.CommandType = CommandType.Text;
-
-
-
-        SqlParameter para1 = new SqlParameter("@sort_id", SqlDbType.Int);
-
         string name = DropDownList1.SelectedItem.Text;
-
         int sid = getsortid(name);
-        para1.Value = sid;
-        cmd.Parameters.Add(para1);
-
-
-        SqlParameter para3 = new SqlParameter("@b_id", SqlDbType.Int);
-
         string sid1 = b_id.Text.Trim();
         int id1 = Convert.ToInt32(sid1);
-        para3.Value = id1;
-        cmd.Parameters.Add(para3);
-
-        SqlParameter para2 = new SqlParameter("@sort_name", SqlDbType.NVarChar, 50);
-        para2.Value = name;
-        cmd.Parameters.Add(para2);
+        string sql = "INSERT INTO [Book_sort] values("+sid+","+id1+","+name+")";
 
         try
         {
-
-            conn.Open();
-           // Response.Write("1");
-            cmd.ExecuteNonQuery();
-            //  Response.Write("2");
+            db.ExecuteSQL(sql);
             Response.Write("<script>alert('添加成功')</script>");
             Response.Redirect("select.aspx");
 
@@ -116,38 +53,24 @@ public partial class book_addbook : System.Web.UI.Page
         {
             Response.Write("发生异常 lei");
         }
-        conn.Close();
 
     }
     //返回图书类别的id
     private int getsortid(string sort_name)
     {
-        DataBase db = new DataBase();
         int id=0;
         string sql = "SELECT * FROM Sort WHERE sort_name=N'"+sort_name+"'";
-
         try
         {
-
-            
-            // Response.Write("1");
-
-            //  Response.Write("2");
             DataRow dr = db.GetDataRow(sql);
-            // SqlDataReader dr = cmd.ExecuteReader();
             id = (int)dr[0];
             Response.Write(id);
-            
-            
-
         }
         catch
         {
-            Response.Write("发生异常 id");
-            
+            Response.Write("发生异常 id");           
         }
         return id;
-
     }
 
     protected void submit_Click(object sender, EventArgs e)

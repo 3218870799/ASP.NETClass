@@ -10,7 +10,7 @@ using System.Web.UI.WebControls;
 
 public partial class student_update1 : System.Web.UI.Page
 {
-
+    DataBase db = new DataBase();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
@@ -23,14 +23,6 @@ public partial class student_update1 : System.Web.UI.Page
     {
         BindGridView();
     }
-    private string GetConnectionString()
-    {
-        //Where MyConsString is the connetion string that was set up in the web config file
-        //return System.Configuration.ConfigurationManager.ConnectionStrings["MyConsString"].ConnectionString;
-        string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        return connstr;
-    }
-
     private void BindGridView()
     {
         string sql;
@@ -44,26 +36,9 @@ public partial class student_update1 : System.Web.UI.Page
             sql = "SELECT * FROM Student WHERE st_id=" + id1;
         }
         DataTable dt = new DataTable();
-
-        SqlConnection connection = new SqlConnection(GetConnectionString());
         try
         {
-            connection.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = connection;
-            
-            cmd.CommandText = sql;
-            cmd.CommandType = CommandType.Text;
-            //添加查询对象
-            //SqlParameter para = new SqlParameter("@id", SqlDbType.NVarChar, 50);
-            //para.Value = id;
-            //cmd.Parameters.Add(para);
-            /*string sqlStatement = "SELECT * FROM Manager1 WHERE username=@id";
-            SqlParameter para = new SqlParameter("@id",SqlDbType.NVarChar,50);          
-            para.Value = id1;
-            SqlCommand sqlCmd = new SqlCommand(sqlStatement, connection);*/
-            SqlDataAdapter sqlDa = new SqlDataAdapter(cmd);
-            sqlDa.Fill(dt);
+            dt = db.GetDataSet(sql).Tables[0];
             if (dt.Rows.Count > 0)
             {
 
@@ -77,31 +52,16 @@ public partial class student_update1 : System.Web.UI.Page
             msg += ex.Message;
             throw new Exception(msg);
         }
-        finally
-        {
-            connection.Close();
-        }
     }
 
     private void UpdateRecord(string id, string name, string sex,string dept,string class1,string credit,string password)
     {
-        SqlConnection connection = new SqlConnection(GetConnectionString());
         string sqlStatement = "UPDATE Student " +
-                              "SET st_id = @id, st_name = @name,st_sex=@sex,st_dept=@dept,st_class=@class1,st_credit=@credit,st_pw=@password " +
-                              "WHERE st_id = @id";
+                              "SET st_id = "+id+", st_name = "+name+",st_sex="+sex+",st_dept="+dept+",st_class="+class1+",st_credit="+credit+",st_pw="+password+"" +
+                              "WHERE st_id = "+id+"";
         try
         {
-            connection.Open();
-            SqlCommand cmd = new SqlCommand(sqlStatement, connection);
-            cmd.Parameters.AddWithValue("@id", id);
-            cmd.Parameters.AddWithValue("@name",name);
-            cmd.Parameters.AddWithValue("@sex", sex);
-            cmd.Parameters.AddWithValue("@dept", dept);
-            cmd.Parameters.AddWithValue("@class1",class1);
-            cmd.Parameters.AddWithValue("@credit",credit);
-            cmd.Parameters.AddWithValue("@password", password);
-            cmd.CommandType = CommandType.Text;
-            cmd.ExecuteNonQuery();
+            db.ExecuteSQL(sqlStatement);
         }
         catch (System.Data.SqlClient.SqlException ex)
         {
@@ -109,26 +69,18 @@ public partial class student_update1 : System.Web.UI.Page
             msg += ex.Message;
             throw new Exception(msg);
         }
-        finally
-        {
-            connection.Close();
-        }
     }
-
-
     protected void GridViewEmployee_RowEditing(object sender, GridViewEditEventArgs e)
     {
         GridViewEmployee1.EditIndex = e.NewEditIndex; // 切换到可编辑模式
         BindGridView(); //重新绑定数据
     }
-
     protected void GridViewEmployee_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
     {
         GridViewEmployee1.EditIndex = -1; //通过 EditIndex 判断 GridView 中的某一 Row，是否处于编辑状态。
         //编辑状态中的 EditIndex >= 0; EditIndex < 0 或 EditIndex = -1 都表示 GridView 中没有正在编辑的Row。
         BindGridView(); 
     }
-
     protected void GridViewEmployee_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
 
@@ -140,11 +92,8 @@ public partial class student_update1 : System.Web.UI.Page
         string credit= ((TextBox)GridViewEmployee1.Rows[e.RowIndex].Cells[5].FindControl("TextBoxEditcredit")).Text;
         string password = ((TextBox)GridViewEmployee1.Rows[e.RowIndex].Cells[6].FindControl("TextBoxEditpw")).Text;
         UpdateRecord(id, name, sex,dept, class1,  credit, password); // 调用函数
-
         GridViewEmployee1.EditIndex = -1; 
-
         BindGridView(); 
-
         Response.Write("<script>alert('修改成功')</script>");
 
     }

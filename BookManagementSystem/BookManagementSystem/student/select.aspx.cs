@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 
 public partial class student_select : System.Web.UI.Page
 {
+    DataBase db = new DataBase();
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!Page.IsPostBack)
@@ -17,14 +18,6 @@ public partial class student_select : System.Web.UI.Page
             BindGridView();
         }
     }
-    private string GetConnectionString()
-    {
-        //Where MyConsString is the connetion string that was set up in the web config file
-        //return System.Configuration.ConfigurationManager.ConnectionStrings["MyConsString"].ConnectionString;
-        string connstr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
-        return connstr;
-    }
-
     private void BindGridView()
     {
         int type = DropDownList1.SelectedIndex;
@@ -52,26 +45,9 @@ public partial class student_select : System.Web.UI.Page
 
         }
         DataTable dt = new DataTable();
-
-        SqlConnection connection = new SqlConnection(GetConnectionString());
         try
         {
-            connection.Open();
-            SqlCommand cmd = new SqlCommand();
-            cmd.Connection = connection;
-
-            cmd.CommandText = sql;
-            cmd.CommandType = CommandType.Text;
-            //添加查询对象
-            //SqlParameter para = new SqlParameter("@id", SqlDbType.NVarChar, 50);
-            //para.Value = id;
-            //cmd.Parameters.Add(para);
-            /*string sqlStatement = "SELECT * FROM Manager1 WHERE username=@id";
-            SqlParameter para = new SqlParameter("@id",SqlDbType.NVarChar,50);          
-            para.Value = id1;
-            SqlCommand sqlCmd = new SqlCommand(sqlStatement, connection);*/
-            SqlDataAdapter sqlDa = new SqlDataAdapter(cmd);
-            sqlDa.Fill(dt);
+            dt = db.GetDataSet(sql).Tables[0];
             if (dt.Rows.Count > 0)
             {
 
@@ -84,10 +60,6 @@ public partial class student_select : System.Web.UI.Page
             string msg = "Fetch Error:";
             msg += ex.Message;
             throw new Exception(msg);
-        }
-        finally
-        {
-            connection.Close();
         }
     }
 
